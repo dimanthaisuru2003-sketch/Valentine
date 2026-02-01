@@ -103,6 +103,7 @@
     const noBtn = document.getElementById("noBtn");
     const music = document.getElementById("loveMusic");
 
+    // Move NO button
     noBtn.addEventListener("mouseover", moveNo);
     noBtn.addEventListener("click", moveNo);
 
@@ -113,11 +114,19 @@
         noBtn.style.top = y + "px";
     }
 
+    // YES click
     function yesClicked() {
-        music.play();
+        music.volume = 0.4; // set soft volume
+        music.play();        // play music
         document.getElementById("questionPage").classList.add("hidden");
         document.getElementById("lovePage").classList.remove("hidden");
     }
+
+    // Start music on first tap anywhere (mobile-friendly)
+    document.body.addEventListener("click", () => {
+        music.volume = 0.4;
+        music.play();
+    }, { once: true });
 
     // Floating hearts
     setInterval(() => {
@@ -126,7 +135,6 @@
         heart.innerHTML = "💖";
         heart.style.left = Math.random() * 100 + "vw";
         document.body.appendChild(heart);
-
         setTimeout(() => heart.remove(), 5000);
     }, 300);
 </script>
