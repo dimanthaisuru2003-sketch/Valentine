@@ -41,7 +41,7 @@ button {
 }
 button:active { transform: scale(1.1); }
 .yes { background: #ff2e63; color: white; }
-.no { background: #444; color: white; position: relative; }
+.no { background: #444; color: white; }
 .submit { background: #ff2e63; color: white; }
 
 /* Input */
@@ -52,13 +52,6 @@ input {
     border: none;
     margin-top: 10px;
     text-align: center;
-}
-
-/* Floating hearts */
-.heart { 
-    position: fixed; 
-    z-index: 1; 
-    pointer-events: none; 
 }
 
 /* Hidden pages */
@@ -79,10 +72,8 @@ input {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 80vh;
 }
-
-/* NO button movement */
-.no { transition: left 0.3s ease, top 0.3s ease, transform 0.3s ease; }
 
 /* Confetti animation */
 .confetti {
@@ -98,9 +89,12 @@ input {
     from { transform: translateY(0) rotate(0deg); opacity: 1; }
     to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
-@keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+
+/* Floating hearts */
+.heart { 
+    position: fixed; 
+    z-index: 1; 
+    pointer-events: none; 
 }
 </style>
 </head>
@@ -143,17 +137,16 @@ input {
 </div>
 
 <script>
-// Elements
-const noBtn = document.getElementById("noBtn");
-const questionPage = document.getElementById("questionPage");
-const lovePage = document.getElementById("lovePage");
-const music = document.getElementById("loveMusic");
 const codePage = document.getElementById("codePage");
 const secretInput = document.getElementById("secretInput");
 const codeMsg = document.getElementById("codeMsg");
+const questionPage = document.getElementById("questionPage");
+const lovePage = document.getElementById("lovePage");
+const noBtn = document.getElementById("noBtn");
+const music = document.getElementById("loveMusic");
 
 // Secret code check
-function checkCode() {
+function checkCode(){
     if(secretInput.value.trim() === "Sasmeen"){
         codePage.classList.add("hidden");
         questionPage.classList.remove("hidden");
@@ -163,52 +156,52 @@ function checkCode() {
 }
 
 // NO button movement
-function moveNo() {
+function moveNo(){
     const padding = 120;
-    const x = Math.random() * (window.innerWidth - padding);
-    const y = Math.random() * (window.innerHeight - padding);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    const x = Math.random()*(window.innerWidth-padding);
+    const y = Math.random()*(window.innerHeight-padding);
+    noBtn.style.left = x+"px";
+    noBtn.style.top = y+"px";
     noBtn.style.transform = `rotate(${Math.random()*360}deg)`;
 }
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("click", moveNo);
 
-// YES button click
-function yesClicked() {
-    music.volume = 0.4;
+// YES click
+function yesClicked(){
+    music.volume=0.4;
     music.play();
     questionPage.classList.add("hidden");
     lovePage.classList.remove("hidden");
-    document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
+    document.body.style.background="linear-gradient(to right, #ff9a9e, #fad0c4)";
 
     // Confetti
-    for(let i=0; i<50; i++){
-        const confetti=document.createElement('div');
-        confetti.className='confetti';
-        confetti.style.backgroundColor=`hsl(${Math.random()*360},100%,70%)`;
-        confetti.style.left=Math.random()*100+'vw';
-        confetti.style.width=confetti.style.height=(5+Math.random()*10)+'px';
-        document.body.appendChild(confetti);
-        setTimeout(()=>confetti.remove(),3000);
+    for(let i=0;i<50;i++){
+        const c=document.createElement('div');
+        c.className='confetti';
+        c.style.backgroundColor=`hsl(${Math.random()*360},100%,70%)`;
+        c.style.left=Math.random()*100+'vw';
+        c.style.width=c.style.height=(5+Math.random()*10)+'px';
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),3000);
     }
 }
 
-// Start music first click (mobile)
-document.body.addEventListener("click", ()=>{ music.volume=0.4; music.play(); }, {once:true});
-
 // Floating hearts
 setInterval(()=>{
-    const heart=document.createElement("div");
-    heart.className="heart";
-    heart.innerHTML="💖";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(15+Math.random()*20)+"px";
-    heart.style.opacity=0.7+Math.random()*0.3;
-    heart.style.animation=`float ${3+Math.random()*3}s linear`;
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),5000);
+    const h=document.createElement('div');
+    h.className='heart';
+    h.innerHTML='💖';
+    h.style.left=Math.random()*100+'vw';
+    h.style.fontSize=(15+Math.random()*20)+'px';
+    h.style.opacity=0.7+Math.random()*0.3;
+    h.style.animation='float 3s linear';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
 },500);
+
+// Start music on first click (mobile)
+document.body.addEventListener("click", ()=>{ music.volume=0.4; music.play(); }, {once:true});
 </script>
 
 </body>
