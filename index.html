@@ -41,7 +41,7 @@ button {
 }
 button:active { transform: scale(1.1); }
 .yes { background: #ff2e63; color: white; }
-.no { background: #444; color: white; }
+.no { background: #444; color: white; position: relative; }
 .submit { background: #ff2e63; color: white; }
 
 /* Input */
@@ -199,9 +199,6 @@ setInterval(()=>{
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),5000);
 },500);
-
-// Start music on first click (mobile)
-document.body.addEventListener("click", ()=>{ music.volume=0.4; music.play(); }, {once:true});
 </script>
 
 </body>
