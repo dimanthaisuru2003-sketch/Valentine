@@ -53,12 +53,6 @@ button:active { transform: scale(1.1); }
 }
 .sticker img { width: 50px; height: 50px; }
 
-/* Floating animation */
-@keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-}
-
 /* Hidden pages */
 .hidden { display: none; }
 
@@ -75,6 +69,20 @@ button:active { transform: scale(1.1); }
 @keyframes confettiFall {
     from { transform: translateY(0) rotate(0deg); opacity: 1; }
     to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+/* Floating animation */
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* YES image */
+#loveImage {
+    margin-top: 20px;
+    width: 250px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
 </style>
 </head>
@@ -103,6 +111,8 @@ button:active { transform: scale(1.1); }
         Feeling lucky to have you in my life 😌💘<br><br>
         <strong>From, Isuuu ❤️</strong>
     </p>
+    <!-- Added image -->
+    <img id="loveImage" src="/mnt/data/93b86fa7-8649-45a6-bf58-f99e05e85a99.jpg" alt="Love Image">
 </div>
 
 <script>
@@ -121,6 +131,7 @@ function moveNo() {
     noBtn.style.top = y + "px";
     noBtn.style.transform = `rotate(${Math.random()*360}deg)`;
 }
+// Keep moving even on click
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("click", moveNo);
 
@@ -164,7 +175,6 @@ setInterval(()=>{
     const sticker = document.createElement("div");
     sticker.className = "sticker";
     sticker.style.left = Math.random()*100+"vw";
-    sticker.style.fontSize = (30+Math.random()*20)+"px";
     sticker.innerHTML = `<img src="file:///mnt/data/adc95b20-6518-495b-891f-63aa19b06875.png">`;
     sticker.style.animation = `float ${4+Math.random()*3}s linear`;
     document.body.appendChild(sticker);
