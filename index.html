@@ -2,168 +2,199 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>💖 A Question From Isuuu 💖</title>
+<title>💖 A Question From Isuu 💖</title>
 
 <style>
-body {
-    margin: 0;
-    background: linear-gradient(to right, #ff758c, #ff7eb3);
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    overflow: hidden;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-align: center;
+    }
 
-/* Box */
-.box {
-    background: rgba(255,255,255,0.2);
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    width: 90%;
-    max-width: 400px;
-}
+    .card {
+        background: rgba(255,255,255,0.15);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        width: 90%;
+        max-width: 400px;
+        backdrop-filter: blur(10px);
+        z-index: 2;
+        position: relative;
+    }
 
-/* Buttons */
-button {
-    font-size: 18px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    margin: 10px;
-}
-.yes { background: #ff2e63; color: white; }
-.no { background: #444; color: white; position: relative; }
-.submit { background: #ff2e63; color: white; }
+    h1 {
+        margin-bottom: 10px;
+    }
 
-/* Input */
-input {
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    text-align: center;
-}
+    input {
+        padding: 10px;
+        width: 80%;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        margin-top: 10px;
+    }
 
-/* Hidden */
-.hidden { display: none; }
+    button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+        transition: 0.3s;
+    }
 
-/* Image */
-#loveImage {
-    width: 250px;
-    margin-top: 20px;
-    border-radius: 20px;
-}
+    .yes {
+        background: #ff2e63;
+        color: #fff;
+    }
 
-/* Love page background */
-#lovePage {
-    background: linear-gradient(to right, #ff416c, #ff4b2b);
-}
+    .no {
+        background: #444;
+        color: #fff;
+        position: absolute;
+    }
 
-/* Hearts */
-.heart {
-    position: fixed;
-    pointer-events: none;
-    animation: float 4s linear forwards;
-}
+    .hidden {
+        display: none;
+    }
 
-@keyframes float {
-    from { transform: translateY(100vh); opacity: 1; }
-    to { transform: translateY(-10vh); opacity: 0; }
-}
+    .message {
+        font-size: 18px;
+        line-height: 1.6;
+    }
+
+    /* Floating hearts */
+    .heart {
+        position: absolute;
+        font-size: 20px;
+        animation: float 6s linear infinite;
+        opacity: 0.8;
+        z-index: 1;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(100vh); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    /* Animated sticker */
+    .sticker {
+        position: absolute;
+        width: 80px;
+        animation: stickerFloat 8s linear infinite, pulse 2s ease-in-out infinite;
+        opacity: 0.9;
+        z-index: 1;
+    }
+
+    @keyframes stickerFloat {
+        0% { transform: translateY(100vh) rotate(0deg); }
+        100% { transform: translateY(-120vh) rotate(360deg); }
+    }
+
+    @keyframes pulse {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
 </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
-    <source src="https://files.catbox.moe/4z6l3b.mp3">
-</audio>
-
-<!-- SECRET PAGE -->
-<div class="box" id="codePage">
-    <h1>💌 Only for My Special Valentine 💌</h1>
-    <p>Enter the secret code</p>
-    <input id="codeInput" placeholder="Secret code">
-    <br>
-    <button class="submit" onclick="checkCode()">Submit</button>
-    <p id="error" style="color:#ffcccc;"></p>
+<!-- SECRET CODE PAGE -->
+<div class="card" id="lockPage">
+    <h1>💖 Valentine Secret 💖</h1>
+    <p>Enter the secret code to unlock my heart 🗝️</p>
+    <input type="password" id="code" placeholder="Secret code">
+    <br><br>
+    <button class="yes" onclick="checkCode()">Unlock 💌</button>
 </div>
 
 <!-- QUESTION PAGE -->
-<div class="box hidden" id="questionPage">
+<div class="card hidden" id="questionPage">
     <h1>Hey Sass 💕</h1>
-    <h2>Will you be my Valentine? 💘</h2>
-    <button class="yes" onclick="yesClicked()">YES 💖</button>
-    <button class="no" id="noBtn">NO 🙈</button>
+    <p>Do you wanna be my forever Valentine? 💘</p>
+    <button class="yes" onclick="showMessage()">Yes 💖</button>
+    <button class="no" id="noBtn">No 🙈</button>
 </div>
 
-<!-- LOVE PAGE -->
-<div class="box hidden" id="lovePage">
-    <h1>💖 You Said YES! 💖</h1>
-    <p>
-        Yay! 😍 I’m so happy you said yes!<br><br>
-        You make everything brighter ✨<br><br>
-        <strong>From, Isuuu ❤️</strong>
+<!-- MESSAGE PAGE -->
+<div class="card hidden" id="messagePage">
+    <h1>💞 My Sass 💞</h1>
+    <p class="message">
+        I didn’t say “I love you”…  
+        But every smile, every thought, every heartbeat already knows it 💗  
+        <br><br>
+        You’re my favorite feeling,  
+        my safest place,  
+        my sweetest forever 💍  
+        <br><br>
+        Happy Valentine’s Day 💕  
+        <br><br>
+        — Yours, Isuu 😘
     </p>
-    <img id="loveImage"
-     src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">
 </div>
 
 <script>
-const codePage = document.getElementById("codePage");
-const questionPage = document.getElementById("questionPage");
-const lovePage = document.getElementById("lovePage");
-const error = document.getElementById("error");
-const music = document.getElementById("music");
-const noBtn = document.getElementById("noBtn");
-
-/* 🔒 FORCE INITIAL STATE (CRITICAL FIX) */
-window.onload = () => {
-    codePage.classList.remove("hidden");
-    questionPage.classList.add("hidden");
-    lovePage.classList.add("hidden");
-};
-
-/* Secret code */
-function checkCode() {
-    if (document.getElementById("codeInput").value === "Sasmeen") {
-        codePage.classList.add("hidden");
-        questionPage.classList.remove("hidden");
-    } else {
-        error.textContent = "❌ Access Denied!";
+    function checkCode() {
+        const code = document.getElementById("code").value;
+        if (code === "Sasmeen") {
+            document.getElementById("lockPage").classList.add("hidden");
+            document.getElementById("questionPage").classList.remove("hidden");
+        } else {
+            alert("Hmm… that’s not the right code 😜");
+        }
     }
-}
 
-/* NO button */
-noBtn.onmouseover = () => {
-    noBtn.style.left = Math.random()*200+"px";
-    noBtn.style.top = Math.random()*200+"px";
-};
+    const noBtn = document.getElementById("noBtn");
 
-/* YES */
-function yesClicked() {
-    questionPage.classList.add("hidden");
-    lovePage.classList.remove("hidden");
-    music.volume = 0.4;
-    music.play();
-}
+    noBtn.addEventListener("mouseover", moveButton);
+    noBtn.addEventListener("click", moveButton);
 
-/* Hearts */
-setInterval(() => {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = "💖";
-    h.style.left = Math.random()*100+"vw";
-    h.style.fontSize = "20px";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),4000);
-}, 500);
+    function moveButton() {
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 50);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+
+    function showMessage() {
+        document.getElementById("questionPage").classList.add("hidden");
+        document.getElementById("messagePage").classList.remove("hidden");
+    }
+
+    // Floating hearts
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }, 300);
+
+    // Animated stickers (your image)
+    setInterval(() => {
+        const sticker = document.createElement("img");
+        sticker.src = "https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg";
+        sticker.className = "sticker";
+        sticker.style.left = Math.random() * 90 + "vw";
+        sticker.style.animationDuration = (Math.random() * 4 + 6) + "s";
+        document.body.appendChild(sticker);
+        setTimeout(() => sticker.remove(), 9000);
+    }, 1200);
 </script>
 
 </body>
