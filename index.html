@@ -16,6 +16,7 @@
         overflow: hidden;
         color: white;
         transition: background 2s;
+        position: relative;
     }
 
     .box {
@@ -68,7 +69,6 @@
 
     .hidden { display: none; }
 
-    /* Confetti */
     .confetti {
         position: fixed;
         width: 10px;
@@ -84,13 +84,28 @@
         to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
 
-    /* playful messages */
-    .msg {
+    /* Red notice */
+    #redNotice {
         position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255,0,0,0.85);
+        padding: 20px 40px;
+        border-radius: 15px;
+        font-size: 24px;
         color: white;
-        font-size: 16px;
-        pointer-events: none;
-        user-select: none;
+        z-index: 10;
+        display: none;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        animation: pop 0.3s ease-out;
+    }
+
+    @keyframes pop {
+        0% { transform: translate(-50%, -50%) scale(0); }
+        70% { transform: translate(-50%, -50%) scale(1.2); }
+        100% { transform: translate(-50%, -50%) scale(1); }
     }
 </style>
 </head>
@@ -125,43 +140,39 @@
     </p>
 </div>
 
+<!-- Red notice for NO -->
+<div id="redNotice">Think again 😏💖</div>
+
 <script>
     const noBtn = document.getElementById("noBtn");
     const music = document.getElementById("loveMusic");
     const questionPage = document.getElementById("questionPage");
     const lovePage = document.getElementById("lovePage");
+    const redNotice = document.getElementById("redNotice");
 
-    const playfulTexts = [
-        "Think again 😏",
-        "Haha, not happening!",
-        "You can't escape 😉",
-        "Try harder 😜",
-        "Nope, YES is the answer 💖"
-    ];
+    let noButtonActive = true;
 
-    // Move NO button randomly with spin & show playful message
+    // Move NO button randomly while active
     function moveNo() {
+        if(!noButtonActive) return; // stop moving after click
         const padding = 120;
         const x = Math.random() * (window.innerWidth - padding);
         const y = Math.random() * (window.innerHeight - padding);
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
-        noBtn.style.transform = `rotate(${Math.random()*360}deg)`; // spin
-
-        // show random playful message
-        const msg = document.createElement('div');
-        msg.className = 'msg';
-        msg.innerText = playfulTexts[Math.floor(Math.random() * playfulTexts.length)];
-        msg.style.left = Math.random()*80 + "vw";
-        msg.style.top = Math.random()*80 + "vh";
-        document.body.appendChild(msg);
-        setTimeout(()=>msg.remove(), 2000);
+        noBtn.style.transform = `rotate(${Math.random()*360}deg)`;
     }
 
     noBtn.addEventListener("mouseover", moveNo);
-    noBtn.addEventListener("click", moveNo);
 
-    // YES click: show flirty page, play music + confetti
+    // When NO is clicked
+    noBtn.addEventListener("click", () => {
+        noButtonActive = false; // stop moving
+        redNotice.style.display = "block"; // show notice
+        setTimeout(()=> redNotice.style.display = "none", 2000); // hide after 2s
+    });
+
+    // YES click
     function yesClicked() {
         music.volume = 0.4;
         music.play();
