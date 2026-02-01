@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>💖 A Question From Isuuu 💖</title>
+
+<style>
+    body {
+        margin: 0;
+        background: linear-gradient(to right, #ff758c, #ff7eb3);
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        color: white;
+    }
+
+    .box {
+        background: rgba(255,255,255,0.2);
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    button {
+        font-size: 18px;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    .yes {
+        background: #ff2e63;
+        color: white;
+    }
+
+    .no {
+        background: #444;
+        color: white;
+        position: absolute;
+    }
+
+    .heart {
+        position: fixed;
+        font-size: 20px;
+        animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+        from {
+            transform: translateY(100vh);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(-10vh);
+            opacity: 0;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio id="loveMusic" loop>
+    <source src="https://files.catbox.moe/4z6l3b.mp3" type="audio/mpeg">
+</audio>
+
+<!-- QUESTION PAGE -->
+<div class="box" id="questionPage">
+    <h1>Hey you 💕</h1>
+    <h2>Do you wanna be my Valentine? 💘</h2>
+
+    <button class="yes" onclick="yesClicked()">YES 💖</button>
+    <button class="no" id="noBtn">NO 🙈</button>
+</div>
+
+<!-- ROMANTIC PAGE -->
+<div class="box hidden" id="lovePage">
+    <h1>💖 You Said YES 💖</h1>
+    <p style="font-size:18px;">
+        From the moment you came into my life,<br>
+        you made everything brighter ✨<br><br>
+
+        Thank you for choosing me 💕<br>
+        I promise smiles, care, and lots of love 😌💘<br><br>
+
+        <strong>Forever yours,<br>
+        Isuuu ❤️</strong>
+    </p>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+    const music = document.getElementById("loveMusic");
+
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("click", moveNo);
+
+    function moveNo() {
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 120);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+
+    function yesClicked() {
+        music.play(); // start music
+        document.getElementById("questionPage").classList.add("hidden");
+        document.getElementById("lovePage").classList.remove("hidden");
+    }
+
+    // Floating hearts
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 5000);
+    }, 300);
+</script>
+
+</body>
+</html>
