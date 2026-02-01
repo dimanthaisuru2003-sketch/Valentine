@@ -5,91 +5,79 @@
 <title>💖 A Question From Isuuu 💖</title>
 
 <style>
-    body {
-        margin: 0;
-        background: linear-gradient(to right, #ff758c, #ff7eb3);
-        font-family: Arial, sans-serif;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        color: white;
-        transition: background 2s;
-    }
+body {
+    margin: 0;
+    background: linear-gradient(to right, #ff758c, #ff7eb3);
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: white;
+    transition: background 2s;
+    position: relative;
+}
 
-    .box {
-        background: rgba(255,255,255,0.2);
-        padding: 30px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        transition: transform 0.3s;
-        z-index: 2;
-        position: relative;
-    }
+/* Main box */
+.box {
+    background: rgba(255,255,255,0.2);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s;
+    z-index: 2;
+    position: relative;
+}
 
-    button {
-        font-size: 18px;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        margin: 10px;
-        transition: transform 0.2s;
-    }
+/* Buttons */
+button {
+    font-size: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+}
+button:active { transform: scale(1.1); }
+.yes { background: #ff2e63; color: white; }
+.no { background: #444; color: white; position: absolute; }
 
-    button:active {
-        transform: scale(1.1);
-    }
+/* Floating hearts and stickers */
+.heart, .sticker {
+    position: fixed;
+    z-index: 1;
+    pointer-events: none;
+}
+.sticker img { width: 50px; height: 50px; }
 
-    .yes {
-        background: #ff2e63;
-        color: white;
-    }
+/* Floating animation */
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
 
-    .no {
-        background: #444;
-        color: white;
-        position: absolute;
-    }
+/* Hidden pages */
+.hidden { display: none; }
 
-    .heart, .sticker {
-        position: fixed;
-        font-size: 20px;
-        animation: float 5s linear infinite;
-        z-index: 1;
-    }
-
-    .sticker img {
-        width: 50px;
-        height: 50px;
-    }
-
-    @keyframes float {
-        from { transform: translateY(100vh); opacity: 1; }
-        to { transform: translateY(-10vh); opacity: 0; }
-    }
-
-    .hidden { display: none; }
-
-    .confetti {
-        position: fixed;
-        width: 10px;
-        height: 10px;
-        z-index: 5;
-        opacity: 0.8;
-        pointer-events: none;
-        animation: confettiFall 3s linear forwards;
-    }
-
-    @keyframes confettiFall {
-        from { transform: translateY(0) rotate(0deg); opacity: 1; }
-        to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-    }
+/* Confetti for YES */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    z-index: 5;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: confettiFall 3s linear forwards;
+}
+@keyframes confettiFall {
+    from { transform: translateY(0) rotate(0deg); opacity: 1; }
+    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
 </style>
 </head>
-
 <body>
 
 <!-- Background Music -->
@@ -97,89 +85,92 @@
     <source src="https://files.catbox.moe/4z6l3b.mp3" type="audio/mpeg">
 </audio>
 
-<!-- QUESTION PAGE -->
+<!-- FRONT PAGE -->
 <div class="box" id="questionPage">
     <h1>Hey Sass 💕</h1>
     <h2>Do you wanna be my Valentine? 💘</h2>
-
     <button class="yes" onclick="yesClicked()">YES 💖</button>
     <button class="no" id="noBtn">NO 🙈</button>
 </div>
 
-<!-- FLIRTY YES PAGE -->
+<!-- YES PAGE -->
 <div class="box hidden" id="lovePage">
     <h1>💖 You Said YES! 💖</h1>
     <p style="font-size:18px;">
         Yay! 😍 I’m so happy you said yes, Sass!<br>
         Can’t wait to share fun moments and smiles with you 💕<br><br>
-        
         I think you will make everything brighter ✨<br>
         Feeling lucky to have you in my life 😌💘<br><br>
-
         <strong>From, Isuuu ❤️</strong>
     </p>
 </div>
 
 <script>
-    const noBtn = document.getElementById("noBtn");
-    const music = document.getElementById("loveMusic");
-    const questionPage = document.getElementById("questionPage");
-    const lovePage = document.getElementById("lovePage");
+// Elements
+const noBtn = document.getElementById("noBtn");
+const questionPage = document.getElementById("questionPage");
+const lovePage = document.getElementById("lovePage");
+const music = document.getElementById("loveMusic");
 
-    // Move NO button randomly
-    function moveNo() {
-        const x = Math.random() * (window.innerWidth - 120);
-        const y = Math.random() * (window.innerHeight - 120);
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
+// NO button keeps moving forever
+function moveNo() {
+    const padding = 120;
+    const x = Math.random() * (window.innerWidth - padding);
+    const y = Math.random() * (window.innerHeight - padding);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    noBtn.style.transform = `rotate(${Math.random()*360}deg)`;
+}
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("click", moveNo);
+
+// YES click
+function yesClicked() {
+    music.volume = 0.4;
+    music.play();
+    questionPage.classList.add("hidden");
+    lovePage.classList.remove("hidden");
+    document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
+
+    // Confetti
+    for(let i=0; i<50; i++){
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
+        confetti.style.left = Math.random()*100+'vw';
+        confetti.style.width = confetti.style.height = (5+Math.random()*10)+'px';
+        document.body.appendChild(confetti);
+        setTimeout(()=>confetti.remove(), 3000);
     }
+}
 
-    noBtn.addEventListener("mouseover", moveNo);
-    noBtn.addEventListener("click", moveNo);
+// Start music on first click (mobile-friendly)
+document.body.addEventListener("click", ()=>{ music.volume=0.4; music.play(); }, {once:true});
 
-    // YES click: show flirty page, play music + confetti + stickers
-    function yesClicked() {
-        music.volume = 0.4;
-        music.play();
-        questionPage.classList.add("hidden");
-        lovePage.classList.remove("hidden");
-        document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
+// Floating hearts + stickers continuously on all pages
+setInterval(()=>{
+    // Hearts
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.fontSize = (15+Math.random()*20)+"px";
+    heart.style.opacity = 0.7+Math.random()*0.3;
+    heart.style.animation = `float ${3+Math.random()*3}s linear`;
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
 
-        // Trigger confetti
-        for(let i=0; i<50; i++){
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.width = confetti.style.height = (5 + Math.random()*10) + 'px';
-            document.body.appendChild(confetti);
-            setTimeout(()=>confetti.remove(), 3000);
-        }
+    // Stickers
+    const sticker = document.createElement("div");
+    sticker.className = "sticker";
+    sticker.style.left = Math.random()*100+"vw";
+    sticker.style.fontSize = (30+Math.random()*20)+"px";
+    sticker.innerHTML = `<img src="file:///mnt/data/adc95b20-6518-495b-891f-63aa19b06875.png">`;
+    sticker.style.animation = `float ${4+Math.random()*3}s linear`;
+    document.body.appendChild(sticker);
+    setTimeout(()=>sticker.remove(),5000);
+}, 500);
 
-        // Floating stickers
-        for(let i=0; i<10; i++){
-            const sticker = document.createElement('div');
-            sticker.className = 'sticker';
-            sticker.style.left = Math.random() * 100 + "vw";
-            sticker.style.fontSize = (30 + Math.random()*30) + "px";
-            sticker.innerHTML = `<img src="file:///mnt/data/adc95b20-6518-495b-891f-63aa19b06875.png" />`; 
-            document.body.appendChild(sticker);
-            setTimeout(()=>sticker.remove(), 5000);
-        }
-    }
-
-    // Floating hearts
-    setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "💖";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (15 + Math.random() * 20) + "px";
-        heart.style.opacity = 0.7 + Math.random() * 0.3;
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 5000);
-    }, 300);
 </script>
-
 </body>
 </html>
