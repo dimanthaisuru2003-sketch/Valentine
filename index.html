@@ -9,13 +9,12 @@ body {
     background: linear-gradient(to right, #ff758c, #ff7eb3);
     font-family: Arial, sans-serif;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
     color: white;
     transition: background 2s;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Main box */
@@ -25,11 +24,9 @@ body {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    transition: transform 0.3s;
-    z-index: 2;
-    position: absolute;
     width: 90%;
     max-width: 400px;
+    z-index: 10;
 }
 
 /* Buttons */
@@ -44,7 +41,7 @@ button {
 }
 button:active { transform: scale(1.1); }
 .yes { background: #ff2e63; color: white; }
-.no { background: #444; color: white; position: absolute; }
+.no { background: #444; color: white; position: relative; }
 .submit { background: #ff2e63; color: white; }
 
 /* Input */
@@ -57,37 +54,15 @@ input {
     text-align: center;
 }
 
-/* Floating hearts and stickers */
-.heart, .sticker {
-    position: fixed;
-    z-index: 1;
-    pointer-events: none;
+/* Floating hearts */
+.heart { 
+    position: fixed; 
+    z-index: 1; 
+    pointer-events: none; 
 }
-.sticker img { width: 50px; height: 50px; }
 
 /* Hidden pages */
 .hidden { display: none; }
-
-/* Confetti for YES */
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    z-index: 5;
-    opacity: 0.8;
-    pointer-events: none;
-    animation: confettiFall 3s linear forwards;
-}
-@keyframes confettiFall {
-    from { transform: translateY(0) rotate(0deg); opacity: 1; }
-    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-}
-
-/* Floating animation */
-@keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-}
 
 /* YES image */
 #loveImage {
@@ -104,12 +79,28 @@ input {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 90%;
 }
 
-/* Smooth NO button movement */
-.no {
-    transition: left 0.3s ease, top 0.3s ease, transform 0.3s ease;
+/* NO button movement */
+.no { transition: left 0.3s ease, top 0.3s ease, transform 0.3s ease; }
+
+/* Confetti animation */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    z-index: 5;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: confettiFall 3s linear forwards;
+}
+@keyframes confettiFall {
+    from { transform: translateY(0) rotate(0deg); opacity: 1; }
+    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
 }
 </style>
 </head>
@@ -120,19 +111,17 @@ input {
     <source src="https://files.catbox.moe/4z6l3b.mp3" type="audio/mpeg">
 </audio>
 
-<!-- SECRET CODE PAGE (VISIBLE FIRST) -->
+<!-- SECRET CODE PAGE -->
 <div class="box" id="codePage">
     <h1>💌 Only for My Special Valentine 💌</h1>
-    <p style="font-size:16px; margin-bottom:10px;">
-        Enter the secret code to see a special surprise!
-    </p>
+    <p>Enter the secret code to see a special surprise!</p>
     <input type="text" id="secretInput" placeholder="Type your code here">
     <br>
     <button class="submit" onclick="checkCode()">Submit</button>
     <p id="codeMsg" style="margin-top:15px; color:#ffcccb;"></p>
 </div>
 
-<!-- FRONT PAGE (HIDDEN INITIALLY) -->
+<!-- FRONT PAGE -->
 <div class="box hidden" id="questionPage">
     <h1>Hey Sass 💕</h1>
     <h2>Do you wanna be my Valentine? 💘</h2>
@@ -140,7 +129,7 @@ input {
     <button class="no" id="noBtn">NO 🙈</button>
 </div>
 
-<!-- YES PAGE (HIDDEN INITIALLY) -->
+<!-- YES PAGE -->
 <div class="box hidden" id="lovePage">
     <h1>💖 You Said YES! 💖</h1>
     <p style="font-size:18px; text-align:center;">
@@ -173,7 +162,7 @@ function checkCode() {
     }
 }
 
-// NO button smooth movement
+// NO button movement
 function moveNo() {
     const padding = 120;
     const x = Math.random() * (window.innerWidth - padding);
@@ -191,42 +180,36 @@ function yesClicked() {
     music.play();
     questionPage.classList.add("hidden");
     lovePage.classList.remove("hidden");
+    document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
 
     // Confetti
     for(let i=0; i<50; i++){
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
-        confetti.style.left = Math.random()*100+'vw';
-        confetti.style.width = confetti.style.height = (5+Math.random()*10)+'px';
+        const confetti=document.createElement('div');
+        confetti.className='confetti';
+        confetti.style.backgroundColor=`hsl(${Math.random()*360},100%,70%)`;
+        confetti.style.left=Math.random()*100+'vw';
+        confetti.style.width=confetti.style.height=(5+Math.random()*10)+'px';
         document.body.appendChild(confetti);
-        setTimeout(()=>confetti.remove(), 3000);
+        setTimeout(()=>confetti.remove(),3000);
     }
 }
 
-// Start music on first click (mobile)
+// Start music first click (mobile)
 document.body.addEventListener("click", ()=>{ music.volume=0.4; music.play(); }, {once:true});
 
-// Floating hearts + stickers
+// Floating hearts
 setInterval(()=>{
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random()*100+"vw";
-    heart.style.fontSize = (15+Math.random()*20)+"px";
-    heart.style.opacity = 0.7+Math.random()*0.3;
-    heart.style.animation = `float ${3+Math.random()*3}s linear`;
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(15+Math.random()*20)+"px";
+    heart.style.opacity=0.7+Math.random()*0.3;
+    heart.style.animation=`float ${3+Math.random()*3}s linear`;
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),5000);
-
-    const sticker = document.createElement("div");
-    sticker.className = "sticker";
-    sticker.style.left = Math.random()*100+"vw";
-    sticker.innerHTML = `<img src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">`;
-    sticker.style.animation = `float ${4+Math.random()*3}s linear`;
-    document.body.appendChild(sticker);
-    setTimeout(()=>sticker.remove(),5000);
-}, 500);
+},500);
 </script>
+
 </body>
 </html>
