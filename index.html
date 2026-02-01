@@ -5,125 +5,112 @@
 <title>💖 A Question From Isuu 💖</title>
 
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        background: linear-gradient(135deg, #2b0a3d, #6a1b4d, #b5179e);
-        font-family: 'Segoe UI', sans-serif;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #fff;
-        text-align: center;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #2b0a3d, #6a1b4d, #b5179e);
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+}
 
-    .card {
-        background: rgba(0,0,0,0.45);
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-        width: 90%;
-        max-width: 400px;
-        backdrop-filter: blur(12px);
-        z-index: 2;
-        position: relative;
-        animation: fadeIn 1.2s ease forwards;
-    }
+.card {
+    background: rgba(0,0,0,0.45);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    width: 90%;
+    max-width: 420px;
+    min-height: 260px;
+    backdrop-filter: blur(12px);
+    position: relative;
+    animation: fadeIn 1.2s ease forwards;
+}
 
-    h1 {
-        margin-bottom: 10px;
-        animation: fadeUp 1.5s ease forwards;
-    }
+h1 { animation: fadeUp 1.2s ease forwards; }
+p  { animation: fadeUp 1.6s ease forwards; }
 
-    p {
-        animation: fadeUp 1.8s ease forwards;
-    }
+input {
+    padding: 10px;
+    width: 80%;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    margin-top: 10px;
+}
 
-    input {
-        padding: 10px;
-        width: 80%;
-        border-radius: 10px;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        margin-top: 10px;
-    }
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+}
 
-    button {
-        padding: 12px 25px;
-        border: none;
-        border-radius: 25px;
-        font-size: 16px;
-        cursor: pointer;
-        margin: 10px;
-        transition: 0.3s;
-    }
+.yes {
+    background: #ff2e63;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255,46,99,0.6);
+}
 
-    .yes {
-        background: #ff2e63;
-        color: #fff;
-        box-shadow: 0 0 15px rgba(255,46,99,0.6);
-    }
+.no {
+    background: #555;
+    color: #fff;
+    position: absolute; /* stays inside card */
+}
 
-    /* 🔥 NO button FIXED */
-    .no {
-        background: #555;
-        color: #fff;
-        position: fixed;       /* key fix */
-        z-index: 9999;         /* always visible */
-    }
+.hidden { display: none; }
 
-    .hidden { display: none; }
+.message {
+    font-size: 18px;
+    line-height: 1.7;
+}
 
-    .message {
-        font-size: 18px;
-        line-height: 1.7;
-    }
+/* Floating hearts & lips */
+.float {
+    position: absolute;
+    font-size: 22px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.85;
+    pointer-events: none;
+}
 
-    /* Floating hearts & lips */
-    .float {
-        position: absolute;
-        font-size: 22px;
-        animation: floatUp 6s linear infinite;
-        opacity: 0.85;
-        z-index: 1;
-        pointer-events: none;
-    }
+@keyframes floatUp {
+    0% { transform: translateY(100vh); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
 
-    @keyframes floatUp {
-        0% { transform: translateY(100vh); opacity: 0; }
-        50% { opacity: 1; }
-        100% { transform: translateY(-10vh); opacity: 0; }
-    }
+/* Fade */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-    /* Fade animations */
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Final image */
-    .final-img {
-        margin-top: 20px;
-        width: 200px;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        opacity: 0;
-        animation: fadeUp 2.2s ease forwards;
-        animation-delay: 0.5s;
-    }
+.final-img {
+    margin-top: 20px;
+    width: 200px;
+    border-radius: 15px;
+    opacity: 0;
+    animation: fadeUp 2s ease forwards;
+    animation-delay: .5s;
+}
 </style>
 </head>
 
 <body>
 
-<!-- SECRET CODE PAGE -->
+<!-- LOCK PAGE -->
 <div class="card" id="lockPage">
     <h1>💖 Valentine Secret 💖</h1>
     <p>Enter the secret code to unlock my heart 🗝️</p>
@@ -136,6 +123,7 @@
 <div class="card hidden" id="questionPage">
     <h1>Hey Sass 💕</h1>
     <p>Do you wanna be my forever Valentine? 💘</p>
+
     <button class="yes" onclick="showMessage()">Yes 💖</button>
     <button class="no" id="noBtn">No 🙈</button>
 </div>
@@ -158,57 +146,58 @@
     </p>
 
     <img class="final-img"
-         src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg"
-         alt="love">
+    src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">
 </div>
 
 <script>
-    function checkCode() {
-        const code = document.getElementById("code").value;
-        if (code === "Sasmeen") {
-            document.getElementById("lockPage").classList.add("hidden");
-            document.getElementById("questionPage").classList.remove("hidden");
-
-            // place NO button initially
-            moveNo();
-        } else {
-            alert("That’s not our secret 😜");
-        }
+function checkCode() {
+    if (document.getElementById("code").value === "Sasmeen") {
+        lockPage.classList.add("hidden");
+        questionPage.classList.remove("hidden");
+        moveNo(); // initial playful move
+    } else {
+        alert("That’s not our secret 😜");
     }
+}
 
-    const noBtn = document.getElementById("noBtn");
+const noBtn = document.getElementById("noBtn");
+const card  = document.getElementById("questionPage");
 
-    // Jump EVERY attempt, forever 😈
-    noBtn.addEventListener("mouseover", moveNo);
-    noBtn.addEventListener("click", moveNo);
+// jump forever
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("click", moveNo);
 
-    function moveNo() {
-        const padding = 20;
-        const btnWidth = noBtn.offsetWidth;
-        const btnHeight = noBtn.offsetHeight;
+function moveNo() {
+    const padding = 15;
 
-        const x = Math.random() * (window.innerWidth - btnWidth - padding);
-        const y = Math.random() * (window.innerHeight - btnHeight - padding);
+    const cardRect = card.getBoundingClientRect();
+    const btnRect  = noBtn.getBoundingClientRect();
 
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    }
+    const maxX = card.clientWidth  - btnRect.width  - padding;
+    const maxY = card.clientHeight - btnRect.height - padding;
 
-    function showMessage() {
-        document.getElementById("questionPage").classList.add("hidden");
-        document.getElementById("messagePage").classList.remove("hidden");
-    }
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
 
-    // Hearts & lips animation
-    setInterval(() => {
-        const el = document.createElement("div");
-        el.className = "float";
-        el.innerHTML = Math.random() > 0.5 ? "💖" : "💋";
-        el.style.left = Math.random() * 100 + "vw";
-        el.style.animationDuration = (Math.random() * 3 + 5) + "s";
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 7000);
-    }, 400);
+    noBtn.style.left = x + "px";
+    noBtn.style.top  = y + "px";
+}
+
+function showMessage() {
+    questionPage.classList.add("hidden");
+    messagePage.classList.remove("hidden");
+}
+
+// hearts & lips
+setInterval(() => {
+    const el = document.createElement("div");
+    el.className = "float";
+    el.innerHTML = Math.random() > 0.5 ? "💖" : "💋";
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.animationDuration = (Math.random() * 3 + 5) + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 7000);
+}, 400);
 </script>
 
 </body>
