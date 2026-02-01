@@ -8,7 +8,7 @@
     body {
         margin: 0;
         height: 100vh;
-        background: linear-gradient(135deg, #2b0a3d, #7b1e4f, #ff4d6d);
+        background: linear-gradient(135deg, #2b0a3d, #6a1b4d, #b5179e);
         font-family: 'Segoe UI', sans-serif;
         overflow: hidden;
         display: flex;
@@ -19,20 +19,18 @@
     }
 
     .card {
-        background: rgba(0,0,0,0.35);
+        background: rgba(0,0,0,0.45);
         padding: 30px;
         border-radius: 20px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
         width: 90%;
         max-width: 400px;
         backdrop-filter: blur(12px);
-        z-index: 3;
+        z-index: 2;
         position: relative;
     }
 
-    h1 {
-        margin-bottom: 10px;
-    }
+    h1 { margin-bottom: 10px; }
 
     input {
         padding: 10px;
@@ -61,84 +59,51 @@
     }
 
     .no {
-        background: #444;
+        background: #555;
         color: #fff;
         position: absolute;
     }
 
-    .hidden {
-        display: none;
-    }
+    .hidden { display: none; }
 
     .message {
         font-size: 18px;
         line-height: 1.7;
     }
 
-    /* Floating hearts */
-    .heart {
+    /* Floating hearts & lips */
+    .float {
         position: absolute;
-        font-size: 20px;
-        animation: float 7s linear infinite;
-        opacity: 0.9;
+        font-size: 22px;
+        animation: floatUp 6s linear infinite;
+        opacity: 0.85;
         z-index: 1;
     }
 
-    @keyframes float {
+    @keyframes floatUp {
         0% { transform: translateY(100vh); opacity: 0; }
         50% { opacity: 1; }
         100% { transform: translateY(-10vh); opacity: 0; }
     }
 
-    /* Floating animated sticker */
-    .sticker {
-        position: absolute;
-        width: 90px;
-        animation: stickerFloat 9s linear infinite, pulse 2.5s ease-in-out infinite;
-        opacity: 0.9;
-        z-index: 2;
-        pointer-events: none;
-    }
-
-    @keyframes stickerFloat {
-        0% { transform: translateY(100vh) rotate(0deg); }
-        100% { transform: translateY(-120vh) rotate(360deg); }
-    }
-
-    @keyframes pulse {
-        0%,100% { transform: scale(1); }
-        50% { transform: scale(1.12); }
-    }
-
-    /* Corner romantic sticker */
-    .corner-sticker {
-        position: fixed;
-        bottom: 15px;
-        right: 15px;
-        width: 110px;
-        opacity: 0.95;
-        animation: cornerPulse 3s ease-in-out infinite;
-        z-index: 2;
-    }
-
-    @keyframes cornerPulse {
-        0%,100% { transform: scale(1); }
-        50% { transform: scale(1.08); }
+    /* Final image */
+    .final-img {
+        margin-top: 20px;
+        width: 200px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 </style>
 </head>
 
 <body>
 
-<!-- Corner sticker (always visible) -->
-<img class="corner-sticker"
-src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">
-
 <!-- SECRET CODE PAGE -->
 <div class="card" id="lockPage">
     <h1>💖 Valentine Secret 💖</h1>
     <p>Enter the secret code to unlock my heart 🗝️</p>
-    <input type="password" id="code" placeholder="Secret code">
+    <!-- visible text input -->
+    <input type="text" id="code" placeholder="Secret code">
     <br><br>
     <button class="yes" onclick="checkCode()">Unlock 💌</button>
 </div>
@@ -158,15 +123,20 @@ src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">
         I never said “I love you”…  
         but my heart already chose you 💗  
         <br><br>
-        In every little moment,  
-        in every quiet thought,  
-        it’s always been you 💫  
+        In every quiet moment,  
+        in every little smile,  
+        it’s always been you ✨  
         <br><br>
         Be my Valentine…  
         today, tomorrow, always 💍  
         <br><br>
         — Yours, Isuu 😘
     </p>
+
+    <!-- single romantic image -->
+    <img class="final-img"
+         src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg"
+         alt="love">
 </div>
 
 <script>
@@ -176,15 +146,17 @@ src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">
             document.getElementById("lockPage").classList.add("hidden");
             document.getElementById("questionPage").classList.remove("hidden");
         } else {
-            alert("That code doesn’t feel right 😜");
+            alert("That’s not our secret 😜");
         }
     }
 
     const noBtn = document.getElementById("noBtn");
-    noBtn.addEventListener("mouseover", moveButton);
-    noBtn.addEventListener("click", moveButton);
 
-    function moveButton() {
+    // NO button jumps EVERY attempt
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("click", moveNo);
+
+    function moveNo() {
         noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
         noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
     }
@@ -194,27 +166,16 @@ src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">
         document.getElementById("messagePage").classList.remove("hidden");
     }
 
-    // Floating hearts
+    // Hearts & lips only
     setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "💖";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 4 + 5) + "s";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 7000);
-    }, 350);
-
-    // Floating stickers
-    setInterval(() => {
-        const sticker = document.createElement("img");
-        sticker.src = "https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg";
-        sticker.className = "sticker";
-        sticker.style.left = Math.random() * 90 + "vw";
-        sticker.style.animationDuration = (Math.random() * 4 + 7) + "s";
-        document.body.appendChild(sticker);
-        setTimeout(() => sticker.remove(), 9000);
-    }, 1500);
+        const el = document.createElement("div");
+        el.className = "float";
+        el.innerHTML = Math.random() > 0.5 ? "💖" : "💋";
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.animationDuration = (Math.random() * 3 + 5) + "s";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 7000);
+    }, 400);
 </script>
 
 </body>
