@@ -66,10 +66,12 @@
         box-shadow: 0 0 15px rgba(255,46,99,0.6);
     }
 
+    /* 🔥 NO button FIXED */
     .no {
         background: #555;
         color: #fff;
-        position: absolute;
+        position: fixed;       /* key fix */
+        z-index: 9999;         /* always visible */
     }
 
     .hidden { display: none; }
@@ -86,6 +88,7 @@
         animation: floatUp 6s linear infinite;
         opacity: 0.85;
         z-index: 1;
+        pointer-events: none;
     }
 
     @keyframes floatUp {
@@ -105,7 +108,7 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Final image fade */
+    /* Final image */
     .final-img {
         margin-top: 20px;
         width: 200px;
@@ -151,7 +154,7 @@
         Be my Valentine…  
         today, tomorrow, always 💍  
         <br><br>
-        — From,Isuu 😘
+        — From, Isuu 😘
     </p>
 
     <img class="final-img"
@@ -165,18 +168,30 @@
         if (code === "Sasmeen") {
             document.getElementById("lockPage").classList.add("hidden");
             document.getElementById("questionPage").classList.remove("hidden");
+
+            // place NO button initially
+            moveNo();
         } else {
             alert("That’s not our secret 😜");
         }
     }
 
     const noBtn = document.getElementById("noBtn");
+
+    // Jump EVERY attempt, forever 😈
     noBtn.addEventListener("mouseover", moveNo);
     noBtn.addEventListener("click", moveNo);
 
     function moveNo() {
-        noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
-        noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
+        const padding = 20;
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+
+        const x = Math.random() * (window.innerWidth - btnWidth - padding);
+        const y = Math.random() * (window.innerHeight - btnHeight - padding);
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
     }
 
     function showMessage() {
@@ -184,7 +199,7 @@
         document.getElementById("messagePage").classList.remove("hidden");
     }
 
-    // Hearts & lips only
+    // Hearts & lips animation
     setInterval(() => {
         const el = document.createElement("div");
         el.className = "float";
