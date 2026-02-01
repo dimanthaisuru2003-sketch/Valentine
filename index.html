@@ -16,7 +16,6 @@
         overflow: hidden;
         color: white;
         transition: background 2s;
-        position: relative;
     }
 
     .box {
@@ -55,11 +54,16 @@
         position: absolute;
     }
 
-    .heart {
+    .heart, .sticker {
         position: fixed;
         font-size: 20px;
         animation: float 5s linear infinite;
         z-index: 1;
+    }
+
+    .sticker img {
+        width: 50px;
+        height: 50px;
     }
 
     @keyframes float {
@@ -82,30 +86,6 @@
     @keyframes confettiFall {
         from { transform: translateY(0) rotate(0deg); opacity: 1; }
         to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-    }
-
-    /* Red notice */
-    #redNotice {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(255,0,0,0.85);
-        padding: 20px 40px;
-        border-radius: 15px;
-        font-size: 24px;
-        color: white;
-        z-index: 10;
-        display: none;
-        text-align: center;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        animation: pop 0.3s ease-out;
-    }
-
-    @keyframes pop {
-        0% { transform: translate(-50%, -50%) scale(0); }
-        70% { transform: translate(-50%, -50%) scale(1.2); }
-        100% { transform: translate(-50%, -50%) scale(1); }
     }
 </style>
 </head>
@@ -133,46 +113,31 @@
         Yay! 😍 I’m so happy you said yes, Sass!<br>
         Can’t wait to share fun moments and smiles with you 💕<br><br>
         
-        You make everything brighter ✨<br>
+        I think you will make everything brighter ✨<br>
         Feeling lucky to have you in my life 😌💘<br><br>
 
         <strong>From, Isuuu ❤️</strong>
     </p>
 </div>
 
-<!-- Red notice for NO -->
-<div id="redNotice">Think again 😏💖</div>
-
 <script>
     const noBtn = document.getElementById("noBtn");
     const music = document.getElementById("loveMusic");
     const questionPage = document.getElementById("questionPage");
     const lovePage = document.getElementById("lovePage");
-    const redNotice = document.getElementById("redNotice");
 
-    let noButtonActive = true;
-
-    // Move NO button randomly while active
+    // Move NO button randomly
     function moveNo() {
-        if(!noButtonActive) return; // stop moving after click
-        const padding = 120;
-        const x = Math.random() * (window.innerWidth - padding);
-        const y = Math.random() * (window.innerHeight - padding);
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 120);
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
-        noBtn.style.transform = `rotate(${Math.random()*360}deg)`;
     }
 
     noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("click", moveNo);
 
-    // When NO is clicked
-    noBtn.addEventListener("click", () => {
-        noButtonActive = false; // stop moving
-        redNotice.style.display = "block"; // show notice
-        setTimeout(()=> redNotice.style.display = "none", 2000); // hide after 2s
-    });
-
-    // YES click
+    // YES click: show flirty page, play music + confetti + stickers
     function yesClicked() {
         music.volume = 0.4;
         music.play();
@@ -181,7 +146,7 @@
         document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
 
         // Trigger confetti
-        for(let i=0; i<100; i++){
+        for(let i=0; i<50; i++){
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
             confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
@@ -190,13 +155,18 @@
             document.body.appendChild(confetti);
             setTimeout(()=>confetti.remove(), 3000);
         }
-    }
 
-    // Start music on first tap anywhere (mobile-friendly)
-    document.body.addEventListener("click", () => {
-        music.volume = 0.4;
-        music.play();
-    }, { once: true });
+        // Floating stickers
+        for(let i=0; i<10; i++){
+            const sticker = document.createElement('div');
+            sticker.className = 'sticker';
+            sticker.style.left = Math.random() * 100 + "vw";
+            sticker.style.fontSize = (30 + Math.random()*30) + "px";
+            sticker.innerHTML = `<img src="file:///mnt/data/adc95b20-6518-495b-891f-63aa19b06875.png" />`; 
+            document.body.appendChild(sticker);
+            setTimeout(()=>sticker.remove(), 5000);
+        }
+    }
 
     // Floating hearts
     setInterval(() => {
