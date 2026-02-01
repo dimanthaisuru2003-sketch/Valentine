@@ -44,6 +44,17 @@ button {
 button:active { transform: scale(1.1); }
 .yes { background: #ff2e63; color: white; }
 .no { background: #444; color: white; position: absolute; }
+.submit { background: #ff2e63; color: white; }
+
+/* Input */
+input {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    text-align: center;
+}
 
 /* Floating hearts and stickers */
 .heart, .sticker {
@@ -84,6 +95,11 @@ button:active { transform: scale(1.1); }
     border-radius: 20px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
+
+/* Vibrant YES page background */
+#lovePage {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+}
 </style>
 </head>
 <body>
@@ -93,8 +109,17 @@ button:active { transform: scale(1.1); }
     <source src="https://files.catbox.moe/4z6l3b.mp3" type="audio/mpeg">
 </audio>
 
+<!-- SECRET CODE PAGE -->
+<div class="box" id="codePage">
+    <h1>Enter Secret Code 💌</h1>
+    <input type="text" id="secretInput" placeholder="Type your code here">
+    <br>
+    <button class="submit" onclick="checkCode()">Submit</button>
+    <p id="codeMsg" style="margin-top:15px; color:#ffcccb;"></p>
+</div>
+
 <!-- FRONT PAGE -->
-<div class="box" id="questionPage">
+<div class="box hidden" id="questionPage">
     <h1>Hey Sass 💕</h1>
     <h2>Do you wanna be my Valentine? 💘</h2>
     <button class="yes" onclick="yesClicked()">YES 💖</button>
@@ -111,7 +136,6 @@ button:active { transform: scale(1.1); }
         Feeling lucky to have you in my life 😌💘<br><br>
         <strong>From, Isuuu ❤️</strong>
     </p>
-    <!-- Added image -->
     <img id="loveImage" src="/mnt/data/93b86fa7-8649-45a6-bf58-f99e05e85a99.jpg" alt="Love Image">
 </div>
 
@@ -121,6 +145,20 @@ const noBtn = document.getElementById("noBtn");
 const questionPage = document.getElementById("questionPage");
 const lovePage = document.getElementById("lovePage");
 const music = document.getElementById("loveMusic");
+const codePage = document.getElementById("codePage");
+const secretInput = document.getElementById("secretInput");
+const codeMsg = document.getElementById("codeMsg");
+
+// Check secret code
+function checkCode() {
+    const code = secretInput.value.trim();
+    if(code === "Sasmeen") {
+        codePage.classList.add("hidden");
+        questionPage.classList.remove("hidden");
+    } else {
+        codeMsg.textContent = "❌ Access Denied! You cannot proceed.";
+    }
+}
 
 // NO button keeps moving forever
 function moveNo() {
@@ -131,7 +169,6 @@ function moveNo() {
     noBtn.style.top = y + "px";
     noBtn.style.transform = `rotate(${Math.random()*360}deg)`;
 }
-// Keep moving even on click
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("click", moveNo);
 
@@ -141,7 +178,6 @@ function yesClicked() {
     music.play();
     questionPage.classList.add("hidden");
     lovePage.classList.remove("hidden");
-    document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
 
     // Confetti
     for(let i=0; i<50; i++){
@@ -180,7 +216,6 @@ setInterval(()=>{
     document.body.appendChild(sticker);
     setTimeout(()=>sticker.remove(),5000);
 }, 500);
-
 </script>
 </body>
 </html>
