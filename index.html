@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>💖 A Question From Isuuu 💖</title>
+
 <style>
 body {
     margin: 0;
@@ -11,13 +12,12 @@ body {
     height: 100vh;
     overflow: hidden;
     color: white;
-    transition: background 2s;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Main box */
+/* Box */
 .box {
     background: rgba(255,255,255,0.2);
     padding: 30px;
@@ -26,7 +26,6 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     width: 90%;
     max-width: 400px;
-    z-index: 10;
 }
 
 /* Buttons */
@@ -37,9 +36,7 @@ button {
     border-radius: 30px;
     cursor: pointer;
     margin: 10px;
-    transition: transform 0.2s;
 }
-button:active { transform: scale(1.1); }
 .yes { background: #ff2e63; color: white; }
 .no { background: #444; color: white; position: relative; }
 .submit { background: #ff2e63; color: white; }
@@ -50,155 +47,123 @@ input {
     padding: 10px;
     border-radius: 10px;
     border: none;
-    margin-top: 10px;
     text-align: center;
 }
 
-/* Hidden pages */
+/* Hidden */
 .hidden { display: none; }
 
-/* YES image */
+/* Image */
 #loveImage {
-    margin-top: 20px;
     width: 250px;
+    margin-top: 20px;
     border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
 
-/* Vibrant YES page background */
+/* Love page background */
 #lovePage {
     background: linear-gradient(to right, #ff416c, #ff4b2b);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
 }
 
-/* Confetti animation */
-.confetti {
+/* Hearts */
+.heart {
     position: fixed;
-    width: 10px;
-    height: 10px;
-    z-index: 5;
-    opacity: 0.8;
     pointer-events: none;
-    animation: confettiFall 3s linear forwards;
-}
-@keyframes confettiFall {
-    from { transform: translateY(0) rotate(0deg); opacity: 1; }
-    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    animation: float 4s linear forwards;
 }
 
-/* Floating hearts */
-.heart { 
-    position: fixed; 
-    z-index: 1; 
-    pointer-events: none; 
+@keyframes float {
+    from { transform: translateY(100vh); opacity: 1; }
+    to { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
+
 <body>
 
-<!-- Background Music -->
-<audio id="loveMusic" loop>
-    <source src="https://files.catbox.moe/4z6l3b.mp3" type="audio/mpeg">
+<audio id="music" loop>
+    <source src="https://files.catbox.moe/4z6l3b.mp3">
 </audio>
 
-<!-- SECRET CODE PAGE -->
+<!-- SECRET PAGE -->
 <div class="box" id="codePage">
     <h1>💌 Only for My Special Valentine 💌</h1>
-    <p>Enter the secret code to see a special surprise!</p>
-    <input type="text" id="secretInput" placeholder="Type your code here">
+    <p>Enter the secret code</p>
+    <input id="codeInput" placeholder="Secret code">
     <br>
     <button class="submit" onclick="checkCode()">Submit</button>
-    <p id="codeMsg" style="margin-top:15px; color:#ffcccb;"></p>
+    <p id="error" style="color:#ffcccc;"></p>
 </div>
 
-<!-- FRONT PAGE -->
+<!-- QUESTION PAGE -->
 <div class="box hidden" id="questionPage">
     <h1>Hey Sass 💕</h1>
-    <h2>Do you wanna be my Valentine? 💘</h2>
+    <h2>Will you be my Valentine? 💘</h2>
     <button class="yes" onclick="yesClicked()">YES 💖</button>
     <button class="no" id="noBtn">NO 🙈</button>
 </div>
 
-<!-- YES PAGE -->
+<!-- LOVE PAGE -->
 <div class="box hidden" id="lovePage">
     <h1>💖 You Said YES! 💖</h1>
-    <p style="font-size:18px; text-align:center;">
-        Yay! 😍 I’m so happy you said yes, Sass!<br>
-        Can’t wait to share fun moments and smiles with you 💕<br><br>
-        I think you will make everything brighter ✨<br>
-        Feeling lucky to have you in my life 😌💘<br><br>
+    <p>
+        Yay! 😍 I’m so happy you said yes!<br><br>
+        You make everything brighter ✨<br><br>
         <strong>From, Isuuu ❤️</strong>
     </p>
-    <img id="loveImage" src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg" alt="Love Image">
+    <img id="loveImage"
+     src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">
 </div>
 
 <script>
 const codePage = document.getElementById("codePage");
-const secretInput = document.getElementById("secretInput");
-const codeMsg = document.getElementById("codeMsg");
 const questionPage = document.getElementById("questionPage");
 const lovePage = document.getElementById("lovePage");
+const error = document.getElementById("error");
+const music = document.getElementById("music");
 const noBtn = document.getElementById("noBtn");
-const music = document.getElementById("loveMusic");
 
-// Secret code check
-function checkCode(){
-    if(secretInput.value.trim() === "Sasmeen"){
+/* 🔒 FORCE INITIAL STATE (CRITICAL FIX) */
+window.onload = () => {
+    codePage.classList.remove("hidden");
+    questionPage.classList.add("hidden");
+    lovePage.classList.add("hidden");
+};
+
+/* Secret code */
+function checkCode() {
+    if (document.getElementById("codeInput").value === "Sasmeen") {
         codePage.classList.add("hidden");
         questionPage.classList.remove("hidden");
     } else {
-        codeMsg.textContent = "❌ Access Denied! You cannot proceed.";
+        error.textContent = "❌ Access Denied!";
     }
 }
 
-// NO button movement
-function moveNo(){
-    const padding = 120;
-    const x = Math.random()*(window.innerWidth-padding);
-    const y = Math.random()*(window.innerHeight-padding);
-    noBtn.style.left = x+"px";
-    noBtn.style.top = y+"px";
-    noBtn.style.transform = `rotate(${Math.random()*360}deg)`;
-}
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("click", moveNo);
+/* NO button */
+noBtn.onmouseover = () => {
+    noBtn.style.left = Math.random()*200+"px";
+    noBtn.style.top = Math.random()*200+"px";
+};
 
-// YES click
-function yesClicked(){
-    music.volume=0.4;
-    music.play();
+/* YES */
+function yesClicked() {
     questionPage.classList.add("hidden");
     lovePage.classList.remove("hidden");
-    document.body.style.background="linear-gradient(to right, #ff9a9e, #fad0c4)";
-
-    // Confetti
-    for(let i=0;i<50;i++){
-        const c=document.createElement('div');
-        c.className='confetti';
-        c.style.backgroundColor=`hsl(${Math.random()*360},100%,70%)`;
-        c.style.left=Math.random()*100+'vw';
-        c.style.width=c.style.height=(5+Math.random()*10)+'px';
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),3000);
-    }
+    music.volume = 0.4;
+    music.play();
 }
 
-// Floating hearts
-setInterval(()=>{
-    const h=document.createElement('div');
-    h.className='heart';
-    h.innerHTML='💖';
-    h.style.left=Math.random()*100+'vw';
-    h.style.fontSize=(15+Math.random()*20)+'px';
-    h.style.opacity=0.7+Math.random()*0.3;
-    h.style.animation='float 3s linear';
+/* Hearts */
+setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "💖";
+    h.style.left = Math.random()*100+"vw";
+    h.style.fontSize = "20px";
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),5000);
-},500);
+    setTimeout(()=>h.remove(),4000);
+}, 500);
 </script>
 
 </body>
