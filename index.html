@@ -15,6 +15,7 @@
         align-items: center;
         overflow: hidden;
         color: white;
+        transition: background 2s;
     }
 
     .box {
@@ -23,6 +24,7 @@
         border-radius: 20px;
         text-align: center;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: transform 0.3s;
     }
 
     button {
@@ -32,6 +34,11 @@
         border-radius: 30px;
         cursor: pointer;
         margin: 10px;
+        transition: transform 0.2s;
+    }
+
+    button:active {
+        transform: scale(1.1);
     }
 
     .yes {
@@ -77,36 +84,34 @@
 
 <!-- QUESTION PAGE -->
 <div class="box" id="questionPage">
-    <h1>Hey beautiful 💕</h1>
+    <h1>Hey Sass 💕</h1>
     <h2>Do you wanna be my Valentine? 💘</h2>
 
     <button class="yes" onclick="yesClicked()">YES 💖</button>
     <button class="no" id="noBtn">NO 🙈</button>
 </div>
 
-<!-- ROMANTIC PAGE -->
+<!-- FLIRTY YES PAGE -->
 <div class="box hidden" id="lovePage">
-    <h1>💖 You Said YES 💖</h1>
-<p style="font-size:18px;">
-    Yay! 😍 I’m so happy you said yes!<br>
-    Can’t wait to share fun moments and smiles with you 💕<br><br>
-    
-    You make everything brighter ✨<br>
-    Feeling lucky to have you in my life 😌💘<br><br>
+    <h1>💖 You Said YES! 💖</h1>
+    <p style="font-size:18px;">
+        Yay! 😍 I’m so happy you said yes, Sass!<br>
+        Can’t wait to share fun moments and smiles with you 💕<br><br>
+        
+        You make everything brighter ✨<br>
+        Feeling lucky to have you in my life 😌💘<br><br>
 
-    <strong>From, Isuuu ❤️</strong>
-</p>
-
+        <strong>From, Isuuu ❤️</strong>
+    </p>
 </div>
 
 <script>
     const noBtn = document.getElementById("noBtn");
     const music = document.getElementById("loveMusic");
+    const questionPage = document.getElementById("questionPage");
+    const lovePage = document.getElementById("lovePage");
 
-    // Move NO button
-    noBtn.addEventListener("mouseover", moveNo);
-    noBtn.addEventListener("click", moveNo);
-
+    // Move NO button randomly
     function moveNo() {
         const x = Math.random() * (window.innerWidth - 120);
         const y = Math.random() * (window.innerHeight - 120);
@@ -114,12 +119,18 @@
         noBtn.style.top = y + "px";
     }
 
-    // YES click
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("click", moveNo);
+
+    // YES click: show flirty page and play music
     function yesClicked() {
-        music.volume = 0.4; // set soft volume
-        music.play();        // play music
-        document.getElementById("questionPage").classList.add("hidden");
-        document.getElementById("lovePage").classList.remove("hidden");
+        music.volume = 0.4;
+        music.play();
+        questionPage.classList.add("hidden");
+        lovePage.classList.remove("hidden");
+
+        // Optional: small background animation
+        document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
     }
 
     // Start music on first tap anywhere (mobile-friendly)
@@ -134,6 +145,8 @@
         heart.className = "heart";
         heart.innerHTML = "💖";
         heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (15 + Math.random() * 20) + "px"; // random size
+        heart.style.opacity = 0.7 + Math.random() * 0.3;
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 5000);
     }, 300);
