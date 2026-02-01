@@ -99,6 +99,14 @@ input {
 /* Vibrant YES page background */
 #lovePage {
     background: linear-gradient(to right, #ff416c, #ff4b2b);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Smooth NO button movement */
+.no {
+    transition: left 0.3s ease, top 0.3s ease, transform 0.3s ease;
 }
 </style>
 </head>
@@ -111,7 +119,10 @@ input {
 
 <!-- SECRET CODE PAGE -->
 <div class="box" id="codePage">
-    <h1>Enter Secret Code 💌</h1>
+    <h1>💌 Only for My Special Valentine 💌</h1>
+    <p style="font-size:16px; margin-bottom:10px;">
+        Enter the secret code to see a special surprise!
+    </p>
     <input type="text" id="secretInput" placeholder="Type your code here">
     <br>
     <button class="submit" onclick="checkCode()">Submit</button>
@@ -129,15 +140,14 @@ input {
 <!-- YES PAGE -->
 <div class="box hidden" id="lovePage">
     <h1>💖 You Said YES! 💖</h1>
-    <p style="font-size:18px;">
+    <p style="font-size:18px; text-align:center;">
         Yay! 😍 I’m so happy you said yes, Sass!<br>
         Can’t wait to share fun moments and smiles with you 💕<br><br>
         I think you will make everything brighter ✨<br>
         Feeling lucky to have you in my life 😌💘<br><br>
         <strong>From, Isuuu ❤️</strong>
     </p>
-   <img id="loveImage" src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg" alt="Love Image">
-
+    <img id="loveImage" src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg" alt="Love Image">
 </div>
 
 <script>
@@ -161,7 +171,7 @@ function checkCode() {
     }
 }
 
-// NO button keeps moving forever
+// Smooth NO button movement
 function moveNo() {
     const padding = 120;
     const x = Math.random() * (window.innerWidth - padding);
@@ -212,7 +222,7 @@ setInterval(()=>{
     const sticker = document.createElement("div");
     sticker.className = "sticker";
     sticker.style.left = Math.random()*100+"vw";
-    sticker.innerHTML = `<img src="file:///mnt/data/adc95b20-6518-495b-891f-63aa19b06875.png">`;
+    sticker.innerHTML = `<img src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">`;
     sticker.style.animation = `float ${4+Math.random()*3}s linear`;
     document.body.appendChild(sticker);
     setTimeout(()=>sticker.remove(),5000);
