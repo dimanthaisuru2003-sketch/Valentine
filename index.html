@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>💖 A Question From Isuu 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-/* BODY + BACKGROUND */
 body {
     margin: 0;
     height: 100vh;
     background: linear-gradient(135deg, #2b0a3d, #6a1b4d, #b5179e);
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Quicksand', sans-serif;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -19,7 +20,6 @@ body {
     text-align: center;
 }
 
-/* CARD */
 .card {
     background: rgba(0,0,0,0.45);
     padding: 25px 20px;
@@ -33,9 +33,19 @@ body {
     animation: fadeIn 1s ease forwards;
 }
 
-/* HEADERS & TEXT */
-h1 { font-size: 1.6rem; margin-bottom: 8px; animation: fadeUp 1s ease forwards; }
-p { font-size: 1rem; line-height: 1.6; animation: fadeUp 1.2s ease forwards; }
+h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    animation: fadeUp 1s ease forwards;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.5;
+    animation: fadeUp 1.2s ease forwards;
+}
+
 input {
     padding: 12px;
     width: 80%;
@@ -46,7 +56,6 @@ input {
     margin-top: 10px;
 }
 
-/* BUTTONS */
 button {
     padding: 12px 25px;
     border: none;
@@ -56,6 +65,7 @@ button {
     margin: 10px 5px;
     transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .yes {
     background: #ff2e63;
     color: #fff;
@@ -69,23 +79,19 @@ button {
     position: absolute; /* inside card */
 }
 
-/* HIDDEN */
 .hidden { display: none; }
 
-/* MESSAGE */
-.message { font-size: 1rem; line-height: 1.5; text-align: center; }
+.message { font-size: 1rem; line-height: 1.6; text-align: center; }
 
-/* FINAL IMAGE */
 .final-img {
     margin-top: 15px;
     width: 180px;
     border-radius: 15px;
     opacity: 0;
     animation: fadeUp 2s ease forwards;
-    animation-delay: 0.5s;
+    animation-delay: .5s;
 }
 
-/* FLOATING HEARTS/LIPS */
 .float {
     position: absolute;
     font-size: 20px;
@@ -94,10 +100,15 @@ button {
     pointer-events: none;
 }
 
-/* KEYFRAMES */
 @keyframes fadeIn { from { opacity: 0; } to { opacity:1; } }
 @keyframes fadeUp { from { opacity:0; transform: translateY(20px);} to { opacity:1; transform: translateY(0); } }
 @keyframes floatUp { 0% { transform: translateY(100vh); opacity:0; } 50%{opacity:1;} 100%{transform: translateY(-10vh); opacity:0; } }
+
+@media (max-width: 400px){
+    h1 { font-size: 1.4rem; }
+    p, .message { font-size: 0.95rem; }
+    button { font-size: 15px; padding: 10px 20px; }
+}
 </style>
 </head>
 
@@ -130,19 +141,16 @@ button {
 </div>
 
 <script>
-// CHECK SECRET CODE
 function checkCode(){
     if(document.getElementById("code").value === "Sasmeen"){
         lockPage.classList.add("hidden");
         questionPage.classList.remove("hidden");
-        moveNo(); // initial NO button position
+        moveNo();
     } else { alert("That’s not our secret 😜"); }
 }
 
 const noBtn = document.getElementById("noBtn");
 const card = document.getElementById("questionPage");
-
-// NO BUTTON jumps forever inside card
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("click", moveNo);
 
@@ -157,7 +165,6 @@ function moveNo(){
     noBtn.style.top = y + "px";
 }
 
-// SHOW FINAL MESSAGE with typewriter effect + confetti
 function showMessage(){
     questionPage.classList.add("hidden");
     messagePage.classList.remove("hidden");
@@ -174,7 +181,7 @@ function showMessage(){
     }, 50);
 }
 
-// FLOATING HEARTS/LIPS
+// Floating hearts/lips
 setInterval(()=>{
     const el = document.createElement("div");
     el.className="float";
@@ -185,7 +192,7 @@ setInterval(()=>{
     setTimeout(()=>el.remove(),7000);
 },400);
 
-// CONFETTI (hearts) WHEN YES CLICKED
+// Confetti hearts on YES
 function createConfetti(){
     let count = 30;
     for(let i=0;i<count;i++){
@@ -201,5 +208,6 @@ function createConfetti(){
     }
 }
 </script>
+
 </body>
 </html>
