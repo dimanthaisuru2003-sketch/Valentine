@@ -94,11 +94,6 @@
     <source src="https://files.catbox.moe/4z6l3b.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Sparkle Sound -->
-<audio id="sparkleSound">
-    <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
-</audio>
-
 <!-- QUESTION PAGE -->
 <div class="box" id="questionPage">
     <h1>Hey Sass 💕</h1>
@@ -125,7 +120,6 @@
 <script>
     const noBtn = document.getElementById("noBtn");
     const music = document.getElementById("loveMusic");
-    const sparkle = document.getElementById("sparkleSound");
     const questionPage = document.getElementById("questionPage");
     const lovePage = document.getElementById("lovePage");
 
@@ -140,11 +134,10 @@
     noBtn.addEventListener("mouseover", moveNo);
     noBtn.addEventListener("click", moveNo);
 
-    // YES click: show flirty page, play music + sparkle + confetti
+    // YES click: show flirty page, play music + confetti
     function yesClicked() {
         music.volume = 0.4;
         music.play();
-        sparkle.play(); // sparkle sound
         questionPage.classList.add("hidden");
         lovePage.classList.remove("hidden");
         document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
