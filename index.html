@@ -25,6 +25,8 @@
         text-align: center;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         transition: transform 0.3s;
+        z-index: 2;
+        position: relative;
     }
 
     button {
@@ -56,21 +58,31 @@
         position: fixed;
         font-size: 20px;
         animation: float 5s linear infinite;
+        z-index: 1;
     }
 
     @keyframes float {
-        from {
-            transform: translateY(100vh);
-            opacity: 1;
-        }
-        to {
-            transform: translateY(-10vh);
-            opacity: 0;
-        }
+        from { transform: translateY(100vh); opacity: 1; }
+        to { transform: translateY(-10vh); opacity: 0; }
     }
 
-    .hidden {
-        display: none;
+    .hidden { display: none; }
+
+    /* Confetti */
+    .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-color: #ff2e63;
+        z-index: 5;
+        opacity: 0.8;
+        pointer-events: none;
+        animation: confettiFall 3s linear forwards;
+    }
+
+    @keyframes confettiFall {
+        from { transform: translateY(0) rotate(0deg); opacity: 1; }
+        to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
 </style>
 </head>
@@ -80,6 +92,11 @@
 <!-- Background Music -->
 <audio id="loveMusic" loop>
     <source src="https://files.catbox.moe/4z6l3b.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Sparkle Sound -->
+<audio id="sparkleSound">
+    <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
 </audio>
 
 <!-- QUESTION PAGE -->
@@ -108,6 +125,7 @@
 <script>
     const noBtn = document.getElementById("noBtn");
     const music = document.getElementById("loveMusic");
+    const sparkle = document.getElementById("sparkleSound");
     const questionPage = document.getElementById("questionPage");
     const lovePage = document.getElementById("lovePage");
 
@@ -122,15 +140,25 @@
     noBtn.addEventListener("mouseover", moveNo);
     noBtn.addEventListener("click", moveNo);
 
-    // YES click: show flirty page and play music
+    // YES click: show flirty page, play music + sparkle + confetti
     function yesClicked() {
         music.volume = 0.4;
         music.play();
+        sparkle.play(); // sparkle sound
         questionPage.classList.add("hidden");
         lovePage.classList.remove("hidden");
-
-        // Optional: small background animation
         document.body.style.background = "linear-gradient(to right, #ff9a9e, #fad0c4)";
+
+        // Trigger confetti
+        for(let i=0; i<100; i++){
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.width = confetti.style.height = (5 + Math.random()*10) + 'px';
+            document.body.appendChild(confetti);
+            setTimeout(()=>confetti.remove(), 3000);
+        }
     }
 
     // Start music on first tap anywhere (mobile-friendly)
@@ -145,7 +173,7 @@
         heart.className = "heart";
         heart.innerHTML = "💖";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (15 + Math.random() * 20) + "px"; // random size
+        heart.style.fontSize = (15 + Math.random() * 20) + "px";
         heart.style.opacity = 0.7 + Math.random() * 0.3;
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 5000);
