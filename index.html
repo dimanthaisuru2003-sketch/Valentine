@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>💖 A Question From Isuuu 💖</title>
-
 <style>
 body {
     margin: 0;
@@ -121,7 +120,7 @@ input {
     <source src="https://files.catbox.moe/4z6l3b.mp3" type="audio/mpeg">
 </audio>
 
-<!-- SECRET CODE PAGE -->
+<!-- SECRET CODE PAGE (VISIBLE FIRST) -->
 <div class="box" id="codePage">
     <h1>💌 Only for My Special Valentine 💌</h1>
     <p style="font-size:16px; margin-bottom:10px;">
@@ -133,7 +132,7 @@ input {
     <p id="codeMsg" style="margin-top:15px; color:#ffcccb;"></p>
 </div>
 
-<!-- FRONT PAGE -->
+<!-- FRONT PAGE (HIDDEN INITIALLY) -->
 <div class="box hidden" id="questionPage">
     <h1>Hey Sass 💕</h1>
     <h2>Do you wanna be my Valentine? 💘</h2>
@@ -141,7 +140,7 @@ input {
     <button class="no" id="noBtn">NO 🙈</button>
 </div>
 
-<!-- YES PAGE -->
+<!-- YES PAGE (HIDDEN INITIALLY) -->
 <div class="box hidden" id="lovePage">
     <h1>💖 You Said YES! 💖</h1>
     <p style="font-size:18px; text-align:center;">
@@ -164,10 +163,9 @@ const codePage = document.getElementById("codePage");
 const secretInput = document.getElementById("secretInput");
 const codeMsg = document.getElementById("codeMsg");
 
-// Check secret code
+// Secret code check
 function checkCode() {
-    const code = secretInput.value.trim();
-    if(code === "Sasmeen") {
+    if(secretInput.value.trim() === "Sasmeen"){
         codePage.classList.add("hidden");
         questionPage.classList.remove("hidden");
     } else {
@@ -175,7 +173,7 @@ function checkCode() {
     }
 }
 
-// Smooth NO button movement
+// NO button smooth movement
 function moveNo() {
     const padding = 120;
     const x = Math.random() * (window.innerWidth - padding);
@@ -187,7 +185,7 @@ function moveNo() {
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("click", moveNo);
 
-// YES click
+// YES button click
 function yesClicked() {
     music.volume = 0.4;
     music.play();
@@ -206,12 +204,11 @@ function yesClicked() {
     }
 }
 
-// Start music on first click (mobile-friendly)
+// Start music on first click (mobile)
 document.body.addEventListener("click", ()=>{ music.volume=0.4; music.play(); }, {once:true});
 
-// Floating hearts + stickers continuously on all pages
+// Floating hearts + stickers
 setInterval(()=>{
-    // Hearts
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "💖";
@@ -222,7 +219,6 @@ setInterval(()=>{
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),5000);
 
-    // Stickers
     const sticker = document.createElement("div");
     sticker.className = "sticker";
     sticker.style.left = Math.random()*100+"vw";
