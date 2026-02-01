@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>💖 A Question From Isuu 💖</title>
-
 <style>
+/* BODY + BACKGROUND */
 body {
     margin: 0;
     height: 100vh;
     background: linear-gradient(135deg, #2b0a3d, #6a1b4d, #b5179e);
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Dancing Script', cursive;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -18,99 +19,91 @@ body {
     text-align: center;
 }
 
+/* CARD */
 .card {
     background: rgba(0,0,0,0.45);
-    padding: 30px;
+    padding: 25px 20px;
     border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
     width: 90%;
-    max-width: 420px;
-    min-height: 260px;
-    backdrop-filter: blur(12px);
+    max-width: 360px;
+    min-height: 250px;
+    backdrop-filter: blur(10px);
     position: relative;
-    animation: fadeIn 1.2s ease forwards;
+    animation: fadeIn 1s ease forwards;
 }
 
-h1 { animation: fadeUp 1.2s ease forwards; }
-p  { animation: fadeUp 1.6s ease forwards; }
-
+/* HEADERS & TEXT */
+h1 { font-size: 1.6rem; margin-bottom: 8px; animation: fadeUp 1s ease forwards; }
+p { font-size: 1rem; line-height: 1.6; animation: fadeUp 1.2s ease forwards; }
 input {
-    padding: 10px;
+    padding: 12px;
     width: 80%;
     border-radius: 10px;
     border: none;
+    outline: none;
     font-size: 16px;
     margin-top: 10px;
 }
 
+/* BUTTONS */
 button {
     padding: 12px 25px;
     border: none;
     border-radius: 25px;
     font-size: 16px;
     cursor: pointer;
-    margin: 10px;
+    margin: 10px 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .yes {
     background: #ff2e63;
     color: #fff;
-    box-shadow: 0 0 15px rgba(255,46,99,0.6);
+    box-shadow: 0 0 12px rgba(255,46,99,0.6);
 }
+.yes:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(255,46,99,0.9); }
 
 .no {
     background: #555;
     color: #fff;
-    position: absolute; /* stays inside card */
+    position: absolute; /* inside card */
 }
 
+/* HIDDEN */
 .hidden { display: none; }
 
-.message {
-    font-size: 18px;
-    line-height: 1.7;
+/* MESSAGE */
+.message { font-size: 1rem; line-height: 1.5; text-align: center; }
+
+/* FINAL IMAGE */
+.final-img {
+    margin-top: 15px;
+    width: 180px;
+    border-radius: 15px;
+    opacity: 0;
+    animation: fadeUp 2s ease forwards;
+    animation-delay: 0.5s;
 }
 
-/* Floating hearts & lips */
+/* FLOATING HEARTS/LIPS */
 .float {
     position: absolute;
-    font-size: 22px;
+    font-size: 20px;
     animation: floatUp 6s linear infinite;
     opacity: 0.85;
     pointer-events: none;
 }
 
-@keyframes floatUp {
-    0% { transform: translateY(100vh); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(-10vh); opacity: 0; }
-}
-
-/* Fade */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.final-img {
-    margin-top: 20px;
-    width: 200px;
-    border-radius: 15px;
-    opacity: 0;
-    animation: fadeUp 2s ease forwards;
-    animation-delay: .5s;
-}
+/* KEYFRAMES */
+@keyframes fadeIn { from { opacity: 0; } to { opacity:1; } }
+@keyframes fadeUp { from { opacity:0; transform: translateY(20px);} to { opacity:1; transform: translateY(0); } }
+@keyframes floatUp { 0% { transform: translateY(100vh); opacity:0; } 50%{opacity:1;} 100%{transform: translateY(-10vh); opacity:0; } }
 </style>
 </head>
 
 <body>
 
-<!-- LOCK PAGE -->
+<!-- SECRET CODE -->
 <div class="card" id="lockPage">
     <h1>💖 Valentine Secret 💖</h1>
     <p>Enter the secret code to unlock my heart 🗝️</p>
@@ -119,86 +112,94 @@ button {
     <button class="yes" onclick="checkCode()">Unlock 💌</button>
 </div>
 
-<!-- QUESTION PAGE -->
+<!-- QUESTION -->
 <div class="card hidden" id="questionPage">
     <h1>Hey Sass 💕</h1>
     <p>Do you wanna be my forever Valentine? 💘</p>
-
     <button class="yes" onclick="showMessage()">Yes 💖</button>
     <button class="no" id="noBtn">No 🙈</button>
 </div>
 
-<!-- MESSAGE PAGE -->
+<!-- FINAL MESSAGE -->
 <div class="card hidden" id="messagePage">
     <h1>💞 Dear Sass 💞</h1>
-    <p class="message">
-        I never said “I love you”…  
-        but my heart already chose you 💗  
-        <br><br>
-        In every quiet moment,  
-        in every little smile,  
-        it’s always been you ✨  
-        <br><br>
-        Be my Valentine…  
-        today, tomorrow, always 💍  
-        <br><br>
-        — From, Isuu 😘
-    </p>
-
+    <p class="message" id="finalMessage"></p>
     <img class="final-img"
-    src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg">
+        src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg"
+        alt="love">
 </div>
 
 <script>
-function checkCode() {
-    if (document.getElementById("code").value === "Sasmeen") {
+// CHECK SECRET CODE
+function checkCode(){
+    if(document.getElementById("code").value === "Sasmeen"){
         lockPage.classList.add("hidden");
         questionPage.classList.remove("hidden");
-        moveNo(); // initial playful move
-    } else {
-        alert("That’s not our secret 😜");
-    }
+        moveNo(); // initial NO button position
+    } else { alert("That’s not our secret 😜"); }
 }
 
 const noBtn = document.getElementById("noBtn");
-const card  = document.getElementById("questionPage");
+const card = document.getElementById("questionPage");
 
-// jump forever
+// NO BUTTON jumps forever inside card
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("click", moveNo);
 
-function moveNo() {
+function moveNo(){
     const padding = 15;
-
-    const cardRect = card.getBoundingClientRect();
-    const btnRect  = noBtn.getBoundingClientRect();
-
-    const maxX = card.clientWidth  - btnRect.width  - padding;
+    const btnRect = noBtn.getBoundingClientRect();
+    const maxX = card.clientWidth - btnRect.width - padding;
     const maxY = card.clientHeight - btnRect.height - padding;
-
     const x = Math.random() * maxX;
     const y = Math.random() * maxY;
-
     noBtn.style.left = x + "px";
-    noBtn.style.top  = y + "px";
+    noBtn.style.top = y + "px";
 }
 
-function showMessage() {
+// SHOW FINAL MESSAGE with typewriter effect + confetti
+function showMessage(){
     questionPage.classList.add("hidden");
     messagePage.classList.remove("hidden");
+
+    const text = "I never said “I love you”… but my heart already chose you 💗\nIn every quiet moment, in every little smile, it’s always been you ✨\nBe my Valentine… today, tomorrow, always 💍 — From, Isuu 😘";
+    const msgEl = document.getElementById("finalMessage");
+    msgEl.innerHTML = "";
+    let i=0;
+    const typing = setInterval(()=>{
+        if(i < text.length){
+            msgEl.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+            i++;
+        } else { clearInterval(typing); createConfetti(); }
+    }, 50);
 }
 
-// hearts & lips
-setInterval(() => {
+// FLOATING HEARTS/LIPS
+setInterval(()=>{
     const el = document.createElement("div");
-    el.className = "float";
-    el.innerHTML = Math.random() > 0.5 ? "💖" : "💋";
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.animationDuration = (Math.random() * 3 + 5) + "s";
+    el.className="float";
+    el.innerHTML = Math.random() > 0.5 ? "💖":"💋";
+    el.style.left = Math.random()*100 + "vw";
+    el.style.animationDuration = (Math.random()*3+5) + "s";
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 7000);
-}, 400);
-</script>
+    setTimeout(()=>el.remove(),7000);
+},400);
 
+// CONFETTI (hearts) WHEN YES CLICKED
+function createConfetti(){
+    let count = 30;
+    for(let i=0;i<count;i++){
+        setTimeout(()=>{
+            const c = document.createElement("div");
+            c.className="float";
+            c.style.fontSize = Math.random()*20+15 + "px";
+            c.innerHTML="💖";
+            c.style.left = Math.random()*100+"vw";
+            document.body.appendChild(c);
+            setTimeout(()=>c.remove(),4000);
+        }, i*100);
+    }
+}
+</script>
 </body>
 </html>
