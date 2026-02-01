@@ -28,9 +28,17 @@
         backdrop-filter: blur(12px);
         z-index: 2;
         position: relative;
+        animation: fadeIn 1.2s ease forwards;
     }
 
-    h1 { margin-bottom: 10px; }
+    h1 {
+        margin-bottom: 10px;
+        animation: fadeUp 1.5s ease forwards;
+    }
+
+    p {
+        animation: fadeUp 1.8s ease forwards;
+    }
 
     input {
         padding: 10px;
@@ -86,12 +94,26 @@
         100% { transform: translateY(-10vh); opacity: 0; }
     }
 
-    /* Final image */
+    /* Fade animations */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Final image fade */
     .final-img {
         margin-top: 20px;
         width: 200px;
         border-radius: 15px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        opacity: 0;
+        animation: fadeUp 2.2s ease forwards;
+        animation-delay: 0.5s;
     }
 </style>
 </head>
@@ -102,7 +124,6 @@
 <div class="card" id="lockPage">
     <h1>💖 Valentine Secret 💖</h1>
     <p>Enter the secret code to unlock my heart 🗝️</p>
-    <!-- visible text input -->
     <input type="text" id="code" placeholder="Secret code">
     <br><br>
     <button class="yes" onclick="checkCode()">Unlock 💌</button>
@@ -133,7 +154,6 @@
         — Yours, Isuu 😘
     </p>
 
-    <!-- single romantic image -->
     <img class="final-img"
          src="https://i.pinimg.com/564x/bf/8b/80/bf8b80218b11f321395daf8e032ee2ab.jpg"
          alt="love">
@@ -151,8 +171,6 @@
     }
 
     const noBtn = document.getElementById("noBtn");
-
-    // NO button jumps EVERY attempt
     noBtn.addEventListener("mouseover", moveNo);
     noBtn.addEventListener("click", moveNo);
 
